@@ -1,0 +1,14 @@
+{
+  "PowerOn": {
+    "id": "PowerOn",
+    "time": "15:00",
+    "funct": "PowerOn",
+    "days": [1, 2, 3, 4, 5]
+  },
+  "PowerOff": {
+    "id": "PowerOff",
+    "time": "01:15",
+    "funct": "PowerOff",
+    "days": [1, 2, 3, 4, 5]
+  }
+}

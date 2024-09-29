@@ -1,0 +1,24 @@
+doctype html
+html
+    head
+        title Scheduled Jobs
+    body
+        h1 Scheduled Jobs
+        table
+            tr
+                th Name
+                th Next Invocation
+                th Rule
+                th Actions
+            each schedule in allSchedules
+                tr
+                    td= schedule.name
+                    td= schedule.nextInvocation
+                    td= schedule.rule
+                    td
+                        a(href=`/schedules/find/${schedule.name}`) View
+                        a(href=`/schedules/delete/${schedule.name}`) Delete
+
+            form(action="/schedules/default" method="POST")
+                button(type="submit") Domyślne
+                br

@@ -1,0 +1,34 @@
+doctype html
+html
+    head
+        title Create Schedule
+    body
+        h1 Create New Schedule
+        form(action="/schedules/create" method="POST")
+            label(for="id") Job ID:
+            input(type="text" name="id" required)
+            br
+            label(for="time") Time (HH:MM):
+            input(type="text" name="time" required)
+            br
+            label(for="function") Function (PowerOn/PowerOff):
+            input(type="text" name="funct" required)
+            br
+            label Select days of the week:
+            br
+            label(for="monday") Monday
+            input(type="checkbox" name="days" value="1")
+            label(for="tuesday") Tuesday
+            input(type="checkbox" name="days" value="2")
+            label(for="wednesday") Wednesday
+            input(type="checkbox" name="days" value="3")
+            label(for="thursday") Thursday
+            input(type="checkbox" name="days" value="4")
+            label(for="friday") Friday
+            input(type="checkbox" name="days" value="5")
+            label(for="saturday") Saturday
+            input(type="checkbox" name="days" value="6")
+            label(for="sunday") Sunday
+            input(type="checkbox" name="days" value="0")
+            br
+            button(type="submit") Create
