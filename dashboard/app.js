@@ -12,10 +12,7 @@ const __dirname = path.dirname(__filename);
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '/views'));
-// app.use(express.static(__dirname + "/public"));
-import bodyParser from 'body-parser';
-app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/schedules', schedulesRouter);
 

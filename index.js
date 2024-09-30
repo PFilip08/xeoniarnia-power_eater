@@ -2,8 +2,6 @@ import {PowerOff, PowerOn} from "./modules/PowerActions.js";
 import schedule from 'node-schedule';
 import './dashboard/app.js'
 import fs from "node:fs";
-import {configDotenv} from "dotenv";
-configDotenv();
 
 const SCHEDULES_FILE = './schedules.json';
 const DEFAULT_SCHEDULES_FILE = './schedules-default.json';
