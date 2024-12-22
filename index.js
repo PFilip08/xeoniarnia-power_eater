@@ -36,6 +36,7 @@ function loadDefaultSchedules() {
         rule.dayOfWeek = days;
 
         const job = schedule.scheduleJob(id, rule, taskFunction);
+        job.funct = funct;
         job.isDefault = true;
 
         console.log(`Loaded default job: ${id} at ${time} for function ${funct}`);
@@ -58,9 +59,18 @@ function restoreJobs() {
         rule.minute = parseInt(minute, 10);
         rule.dayOfWeek = days;
 
-        schedule.scheduleJob(id, rule, taskFunction);
+        const job = schedule.scheduleJob(id, rule, taskFunction);
+        job.funct = funct;
         console.log(`Restored job: ${id} at ${time} for function ${funct} on days ${days.join(', ')}`);
     });
+}
+
+export async function restartJobs() {
+    console.log('Restartowanie...');
+    await schedule.gracefulShutdown();
+    loadDefaultSchedules();
+    restoreJobs();
+    return 'ok';
 }
 
 // const config = JSON.parse(fs.readFileSync('./config.json'));
@@ -72,6 +82,10 @@ function restoreJobs() {
 
 loadDefaultSchedules();
 restoreJobs();
+
+// setInterval(() => {
+//     console.log(scheduledJobs);
+// }, 1000);
 
 // console.log(schedule.scheduledJobs);
 // console.log(`Zaplanowane roboty: Pon-Pt\nPowerOn: ${config.PowerOnTime}\nPowerOff: ${config.PowerOffTime}`)

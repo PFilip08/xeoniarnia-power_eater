@@ -2,6 +2,50 @@ doctype html
 html
     head
         title Scheduled Jobs
+        style.
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 20px;
+            }
+            h1 {
+                color: #333;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+            th, td {
+                padding: 10px;
+                border: 1px solid #ddd;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+            a {
+                margin-right: 10px;
+                color: #007bff;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            button {
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
     body
         h1 Scheduled Jobs
         table
@@ -12,13 +56,14 @@ html
                 th Actions
             each schedule in allSchedules
                 tr
-                    td= schedule.name
+                    td= schedule.name + (schedule.isDefault ? ' (default)' : '')
                     td= schedule.nextInvocation
                     td= schedule.rule
                     td
+                        a(href=`/schedules/edit/${schedule.name}`) Edit
                         a(href=`/schedules/find/${schedule.name}`) View
                         a(href=`/schedules/delete/${schedule.name}`) Delete
-
-            form(action="/schedules/default" method="POST")
-                button(type="submit") Domyślne
-                br
+        //form(action="/schedules/default" method="POST")
+        //    button(type="submit") Domyślne
+        form(action="/schedules/restart" method="POST")
+            button(type="submit") Restart

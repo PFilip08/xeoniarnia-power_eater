@@ -1,0 +1,26 @@
+doctype html
+html
+    head
+        title Edit Schedule
+    body
+        h1 Edit Schedule
+        form(action=`/schedules/edit/${schedule.id}` method="POST")
+            div
+                label(for="id") ID:
+                input(type="text" name="id" value=schedule.id disabled)
+            div
+                label(for="time") Time:
+                input(type="text" name="time" value=schedule.time)
+            div
+                label(for="funct") Function:
+                select(name="funct")
+                    option(value="PowerOn" selected=(schedule.funct === 'PowerOn')) Power On
+                    option(value="PowerOff" selected=(schedule.funct === 'PowerOff')) Power Off
+            div
+                label Select days of the week:
+                br
+                each day, index in [1, 2, 3, 4, 5, 6, 0]
+                    label(for=day) #{['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][index]}
+                    input(type="checkbox" name="days" value=day checked=(schedule.days.includes(day)))
+            div
+                button(type="submit") Save
