@@ -17,35 +17,49 @@ function loadSchedulesFromFile() {
 function loadDefaultSchedules() {
     if (!fs.existsSync(DEFAULT_SCHEDULES_FILE)) {
         console.log("No default schedules file found.");
-        return;
+        return {};
     }
 
     const data = fs.readFileSync(DEFAULT_SCHEDULES_FILE);
     const defaultSchedules = JSON.parse(data);
 
-    Object.values(defaultSchedules).forEach(({ id, time, funct }) => {
+    Object.values(defaultSchedules).forEach(({ id, time, funct, days }) => {
         const [hour, minute] = time.split(':');
 
         let taskFunction;
         if (funct === "PowerOn") taskFunction = PowerOn;
         else if (funct === "PowerOff") taskFunction = PowerOff;
 
-        const job = schedule.scheduleJob(id, `${minute} ${hour} * * *`, taskFunction);
+        const rule = new schedule.RecurrenceRule();
+        rule.hour = parseInt(hour, 10);
+        rule.minute = parseInt(minute, 10);
+        rule.dayOfWeek = days;
+
+        const job = schedule.scheduleJob(id, rule, taskFunction);
+        job.isDefault = true;
+
         console.log(`Loaded default job: ${id} at ${time} for function ${funct}`);
     });
+
+    return defaultSchedules;
 }
 
 function restoreJobs() {
     const savedSchedules = loadSchedulesFromFile();
-    Object.values(savedSchedules).forEach(({ id, time, funct }) => {
+    Object.values(savedSchedules).forEach(({ id, time, funct, days }) => {
         const [hour, minute] = time.split(':');
 
         let taskFunction;
         if (funct === "PowerOn") taskFunction = PowerOn;
         else if (funct === "PowerOff") taskFunction = PowerOff;
 
-        schedule.scheduleJob(id, `${minute} ${hour} * * *`, taskFunction);
-        console.log(`Restored job: ${id} at ${time} for function ${funct}`);
+        const rule = new schedule.RecurrenceRule();
+        rule.hour = parseInt(hour, 10);
+        rule.minute = parseInt(minute, 10);
+        rule.dayOfWeek = days;
+
+        schedule.scheduleJob(id, rule, taskFunction);
+        console.log(`Restored job: ${id} at ${time} for function ${funct} on days ${days.join(', ')}`);
     });
 }
 
